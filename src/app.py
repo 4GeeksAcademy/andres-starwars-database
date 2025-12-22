@@ -51,7 +51,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-    # //-----User Routes-----//
+#                                                                       //-----User Routes-----//
 
 
 @app.route('/users', methods=['GET'])
@@ -131,7 +131,7 @@ def delete_user(id):
     db.session.commit()
     return jsonify({'msg': 'User deleted successfully'})
 
-    # //-----Character Routes-----//
+#                                                                       //-----Character Routes-----//
 
 
 @app.route('/characters', methods=['GET'])
@@ -211,7 +211,7 @@ def delete_character(id):
     db.session.commit()
     return jsonify({'msg': 'Character deleted successfully'})
 
-    # //-----Planet Routes-----//
+#                                                                       //-----Planet Routes-----//
 
 
 @app.route('/planets', methods=['GET'])
@@ -294,7 +294,7 @@ def delete_planet(id):
     db.session.commit()
     return jsonify({'msg': 'Planet deleted successfully'})
 
-    # //-----Vehicle Routes-----//
+#                                                                       //-----Vehicle Routes-----//
 
 
 @app.route('/vehicles', methods=['GET'])
@@ -378,7 +378,7 @@ def delete_vehicle(id):
     return jsonify({'msg': 'Vehicle deleted successfully'})
 
 
-# //-----Favorite Characters-----//
+#                                                                       //-----Favorite Characters-----//
 
 
 @app.route('/favorites/characters/<int:character_id>/user/<int:user_id>', methods=['POST'])
@@ -418,7 +418,7 @@ def delete_favorite_character(character_id, user_id):
     return jsonify({'msg': 'Favorite character deleted successfully'})
 
 
-# //-----Favorite Planets-----//
+#                                                                       //-----Favorite Planets-----//
 
 @app.route('/favorites/planets/<int:planet_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_planet(user_id, planet_id):
@@ -457,7 +457,7 @@ def delete_favorite_planet(planet_id, user_id):
     return jsonify({'msg': 'Favorite planet deleted successfully'})
 
 
-# //-----Favorite Vehicles-----//
+#                                                                       //-----Favorite Vehicles-----//
 
 @app.route('/favorites/vehicles/<int:vehicle_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_vehicle(user_id, vehicle_id):
@@ -498,7 +498,7 @@ def delete_favorite_vehicle(vehicle_id, user_id):
     return jsonify({'msg': 'Favorite vehicle deleted successfully'})
 
 
-# //-----All favorites-----//
+#                                                                       //-----All favorites-----//
 
 @app.route('/users/<int:user_id>/favorites', methods=['GET'])
 def get_favorites(user_id):
