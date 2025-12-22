@@ -51,7 +51,7 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-    # //----- User Routes -----//
+    # //-----User Routes-----//
 
 
 @app.route('/users', methods=['GET'])
@@ -131,7 +131,7 @@ def delete_user(id):
     db.session.commit()
     return jsonify({'msg': 'User deleted successfully'})
 
-    # //----- Character Routes -----//
+    # //-----Character Routes-----//
 
 
 @app.route('/characters', methods=['GET'])
@@ -211,7 +211,7 @@ def delete_character(id):
     db.session.commit()
     return jsonify({'msg': 'Character deleted successfully'})
 
-    # //----- Planet Routes -----//
+    # //-----Planet Routes-----//
 
 
 @app.route('/planets', methods=['GET'])
@@ -294,7 +294,7 @@ def delete_planet(id):
     db.session.commit()
     return jsonify({'msg': 'Planet deleted successfully'})
 
-    # //----- Vehicle Routes -----//
+    # //-----Vehicle Routes-----//
 
 
 @app.route('/vehicles', methods=['GET'])
@@ -378,19 +378,21 @@ def delete_vehicle(id):
     return jsonify({'msg': 'Vehicle deleted successfully'})
 
 
+# //-----Favorite Characters-----//
+
+
 @app.route('/favorites/characters/<int:character_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_character(user_id, character_id):
     user = User.query.get(user_id)
     character = Characters.query.get(character_id)
-    favorites = FavoriteCharacters.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.character_id == character_id:
-            return jsonify({'msg': 'Favorite already exists'})
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if character is None:
         return jsonify({'msg': 'Character doesnt exist'}), 404
+    favorites = FavoriteCharacters.query.filter_by(
+        user_id=user_id, character_id=character_id).all()
+    if len(favorites) > 0:
+        return jsonify({'msg': 'Favorite already exists'})
     new_favorite = FavoriteCharacters()
     new_favorite.user_id = user_id
     new_favorite.character_id = character_id
@@ -403,37 +405,33 @@ def add_favorite_character(user_id, character_id):
 def delete_favorite_character(character_id, user_id):
     user = User.query.get(user_id)
     character = Characters.query.get(character_id)
-    favorite_id = 0
-    favorites = FavoriteCharacters.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.character_id == character_id:
-            favorite_id = favorite.id
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if character is None:
         return jsonify({'msg': 'Character doesnt exist'}), 404
-    favorite = FavoriteCharacters.query.get(favorite_id)
-    if favorite is None:
-        return jsonify({'msg': 'Favorite does not exist'}), 404
-    db.session.delete(favorite)
+    favorites = FavoriteCharacters.query.filter_by(
+        character_id=character_id, user_id=user_id).all()
+    if len(favorites) == 0:
+        return jsonify({'msg': 'Favorite doesnt exist'})
+    db.session.delete(favorites[0])
     db.session.commit()
     return jsonify({'msg': 'Favorite character deleted successfully'})
 
+
+# //-----Favorite Planets-----//
 
 @app.route('/favorites/planets/<int:planet_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_planet(user_id, planet_id):
     user = User.query.get(user_id)
     planet = Characters.query.get(planet_id)
-    favorites = FavoritePlanets.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.planet_id == planet_id:
-            return jsonify({'msg': 'Favorite already exists'})
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if planet is None:
         return jsonify({'msg': 'Character doesnt exist'}), 404
+    favorites = FavoritePlanets.query.filter_by(
+        user_id=user_id, planet_id=planet_id).all()
+    if len(favorites) > 0:
+        return jsonify({'msg': 'Favorite already exists'})
     new_favorite = FavoritePlanets()
     new_favorite.user_id = user_id
     new_favorite.planet_id = planet_id
@@ -446,37 +444,35 @@ def add_favorite_planet(user_id, planet_id):
 def delete_favorite_planet(planet_id, user_id):
     user = User.query.get(user_id)
     planet = Planets.query.get(planet_id)
-    favorite_id = 0
-    favorites = FavoritePlanets.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.planet_id == planet_id:
-            favorite_id = favorite.id
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if planet is None:
         return jsonify({'msg': 'planet doesnt exist'}), 404
-    favorite = FavoritePlanets.query.get(favorite_id)
-    if favorite is None:
+    favorites = FavoritePlanets.query.filter_by(
+        planet_id=planet_id, user_id=user_id).all()
+    if len(favorites) == 0:
         return jsonify({'msg': 'Favorite does not exist'}), 404
-    db.session.delete(favorite)
+    db.session.delete(favorites[0])
     db.session.commit()
     return jsonify({'msg': 'Favorite planet deleted successfully'})
 
+
+# //-----Favorite Vehicles-----//
 
 @app.route('/favorites/vehicles/<int:vehicle_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_vehicle(user_id, vehicle_id):
     user = User.query.get(user_id)
     vehicle = Characters.query.get(vehicle_id)
-    favorites = FavoriteVehicles.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.vehicle_id == vehicle_id:
-            return jsonify({'msg': 'Favorite already exists'})
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if vehicle is None:
-        return jsonify({'msg': 'Character doesnt exist'}), 404
+        return jsonify({'msg': 'Vehicle doesnt exist'}), 404
+    favorites = FavoriteVehicles.query.filter_by(
+        user_id=user_id, vehicle_id=vehicle_id).all()
+    print(favorites)
+    if len(favorites) > 0:
+        return jsonify({'msg': 'Favorite already exists'})
+
     new_favorite = FavoriteVehicles()
     new_favorite.user_id = user_id
     new_favorite.vehicle_id = vehicle_id
@@ -489,22 +485,38 @@ def add_favorite_vehicle(user_id, vehicle_id):
 def delete_favorite_vehicle(vehicle_id, user_id):
     user = User.query.get(user_id)
     vehicle = Vehicles.query.get(vehicle_id)
-    favorite_id = 0
-    favorites = FavoriteVehicles.query.all()
-    for favorite in favorites:
-        favorite.serialize
-        if favorite.user_id == user_id and favorite.vehicle_id == vehicle_id:
-            favorite_id = favorite.id
     if user is None:
         return jsonify({'msg': 'User doesnt exist'}), 404
     if vehicle is None:
         return jsonify({'msg': 'vehicle doesnt exist'}), 404
-    favorite = FavoriteVehicles.query.get(favorite_id)
-    if favorite is None:
-        return jsonify({'msg': 'Favorite does not exist'}), 404
-    db.session.delete(favorite)
+    favorites = FavoriteVehicles.query.filter_by(
+        vehicle_id=vehicle_id, user_id=user_id).all()
+    if len(favorites) == 0:
+        return jsonify({'msg': 'Favorite doesnt exist'})
+    db.session.delete(favorites[0])
     db.session.commit()
     return jsonify({'msg': 'Favorite vehicle deleted successfully'})
+
+
+# //-----All favorites-----//
+
+@app.route('/users/<int:user_id>/favorites', methods=['GET'])
+def get_favorites(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'msg': 'User not found'}), 404
+    favorite_characters_serialized = []
+    for favorite in user.favorite_characters:
+        favorite_characters_serialized.append(favorite.character.serialize())
+    favorite_planets_serialized = []
+    for favorite in user.favorite_planets:
+        favorite_planets_serialized.append(favorite.planet.serialize())
+    favorite_vehicles_serialized = []
+    for favorite in user.favorite_vehicles:
+        favorite_vehicles_serialized.append(favorite.vehicle.serialize())
+    return jsonify({'favorite_characters': favorite_characters_serialized,
+                   'favorite_planets': favorite_planets_serialized,
+                    'favorite_vehicles': favorite_vehicles_serialized}), 200
 
 
 # this only runs if `$ python src/app.py` is executed
