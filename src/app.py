@@ -381,7 +381,7 @@ def delete_vehicle(id):
 #                                                                       //-----Favorite Characters-----//
 
 
-@app.route('/favorites/characters/<int:character_id>/user/<int:user_id>', methods=['POST'])
+@app.route('/favorites/people/<int:character_id>/user/<int:user_id>', methods=['POST'])
 def add_favorite_character(user_id, character_id):
     user = User.query.get(user_id)
     character = Characters.query.get(character_id)
@@ -401,7 +401,7 @@ def add_favorite_character(user_id, character_id):
     return jsonify({'msg': 'Favorite character added'})
 
 
-@app.route('/favorites/characters/<int:character_id>/user/<int:user_id>', methods=['DELETE'])
+@app.route('/favorites/people/<int:character_id>/user/<int:user_id>', methods=['DELETE'])
 def delete_favorite_character(character_id, user_id):
     user = User.query.get(user_id)
     character = Characters.query.get(character_id)
