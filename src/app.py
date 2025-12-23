@@ -134,7 +134,7 @@ def delete_user(id):
 #                                                                       //-----Character Routes-----//
 
 
-@app.route('/characters', methods=['GET'])
+@app.route('/people', methods=['GET'])
 def get_characters():
     characters = Characters.query.all()
     characters_serilialized = []
@@ -144,7 +144,7 @@ def get_characters():
     return jsonify({'characters': characters_serilialized}), 200
 
 
-@app.route('/characters/<int:id>', methods=['GET'])
+@app.route('/people/<int:id>', methods=['GET'])
 def get_character(id):
     character = Characters.query.get(id)
     if character == None:
@@ -154,7 +154,7 @@ def get_character(id):
     return jsonify({'data': serialized_character}), 200
 
 
-@app.route('/characters', methods=['POST'])
+@app.route('/people', methods=['POST'])
 def add_character():
     body = request.get_json(silent=True)
     if body is None:
@@ -181,7 +181,7 @@ def add_character():
     return jsonify({'msg': 'Charcater added succesfully'}), 201
 
 
-@app.route('/characters/<int:id>', methods=['PUT'])
+@app.route('/people/<int:id>', methods=['PUT'])
 def update_character(id):
     character = Characters.query.get(id)
     if character is None:
@@ -202,7 +202,7 @@ def update_character(id):
     return jsonify({'msg': 'Character updated successfully'}), 200
 
 
-@app.route('/characters/<int:id>', methods=['DELETE'])
+@app.route('/people/<int:id>', methods=['DELETE'])
 def delete_character(id):
     character = Characters.query.get(id)
     if character is None:
