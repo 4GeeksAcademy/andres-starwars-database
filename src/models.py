@@ -20,7 +20,7 @@ class User(db.Model):
     favorite_planets: Mapped[list['FavoritePlanets']
                              ] = relationship(back_populates='user')
     favorite_vehicles: Mapped[list['FavoriteVehicles']
-                              ] = relationship(back_populates='user')
+                              ] = relationship(back_populates='user',cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'{self.first_name} {self.last_name}'
@@ -44,7 +44,7 @@ class Characters(db.Model):
     weight: Mapped[int] = mapped_column(Integer)
     birthdate: Mapped[str] = mapped_column(String(20))
     favorite_by: Mapped[list['FavoriteCharacters']
-                        ] = relationship(back_populates='character')
+                        ] = relationship(back_populates='character',cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'{self.name}'
@@ -70,7 +70,7 @@ class Planets(db.Model):
     year_length_days: Mapped[int] = mapped_column(Integer)
     population: Mapped[int] = mapped_column(Integer)
     favorite_by: Mapped[list['FavoritePlanets']
-                        ] = relationship(back_populates='planet')
+                        ] = relationship(back_populates='planet',cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'{self.planet_name}'
@@ -97,7 +97,7 @@ class Vehicles(db.Model):
     model: Mapped[str] = mapped_column(String(40))
     cost: Mapped[int] = mapped_column(Integer)
     favorite_by: Mapped[list['FavoriteVehicles']
-                        ] = relationship(back_populates='vehicle')
+                        ] = relationship(back_populates='vehicle',cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'{self.vehicle_name}'
