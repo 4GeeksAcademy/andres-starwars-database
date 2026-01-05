@@ -57,11 +57,11 @@ def handle_hello():
 @app.route('/users', methods=['GET'])
 def get_users():
     users = User.query.all()
-    users_serilialized = []
+    users_serialized = []
     for user in users:
-        users_serilialized.append(user.serialize())
+        users_serialized.append(user.serialize())
 
-    return jsonify({'users': users_serilialized}), 200
+    return jsonify({'users': users_serialized}), 200
 
 
 @app.route('/users/<int:id>', methods=['GET'])
@@ -137,11 +137,11 @@ def delete_user(id):
 @app.route('/people', methods=['GET'])
 def get_characters():
     characters = Characters.query.all()
-    characters_serilialized = []
+    characters_serialized = []
     for character in characters:
-        characters_serilialized.append(character.serialize())
+        characters_serialized.append(character.serialize())
 
-    return jsonify({'characters': characters_serilialized}), 200
+    return jsonify({'characters': characters_serialized}), 200
 
 
 @app.route('/people/<int:id>', methods=['GET'])
